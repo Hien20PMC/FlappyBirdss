@@ -12,6 +12,7 @@ public class MovePipe : MonoBehaviour
     [SerializeField] private GameObject Pipe2;
     [SerializeField] private Vector3 vel;
     [SerializeField] private GameObject[] Pipe;
+    [SerializeField] private GameObject[] target;
     [SerializeField] private Transform dasheffect;
     public static MovePipe instance;
     private bool isDash = false;
@@ -76,10 +77,12 @@ public class MovePipe : MonoBehaviour
         if (Pipe[0].transform.position.x < -5)
         {
             Pipe[0].transform.position = new Vector3(3, Random.Range(-1, 1));
+            target[0].SetActive(true);
         }
         if (Pipe[1].transform.position.x < -5)
         {
             Pipe[1].transform.position = new Vector3(3, Random.Range(-1, 1));
+            target[1].SetActive(true);
         }
         //dx = Pide_up.transform.position.x;
         //dy = Pide_up.transform.position.y;

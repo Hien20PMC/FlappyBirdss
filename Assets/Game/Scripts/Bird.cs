@@ -17,8 +17,8 @@ public class Bird : MonoBehaviour
     [SerializeField] private Image Ghost;
     [SerializeField] private Image TimeManager;
     [SerializeField] private GameObject[] Pipe;
-
-    private int a=0;
+    [SerializeField] private GameObject[] target;
+    public static int a=0;
     private int score = 0;
     private int HightScore = 0;
     private int temp=0;
@@ -81,21 +81,36 @@ public class Bird : MonoBehaviour
         GameObject bullet = ObjectPool.instance.GetPoolObject();
         if (bullet != null)
         {
-            bullet.transform.position = bulletPosition.position;
+            bullet.transform.position = bird.transform.position;
             bullet.SetActive(true);
         }
     }
 
     public void Collide()
     {
-            if ((bird.transform.position.x == Mathf.Round(Pipe[a].transform.position.x) ||
+        if (target[a].activeInHierarchy == true)
+        {
+            if (
+              Mathf.Round(bird.transform.position.x) == Mathf.Round(target[a].transform.position.x)
+              )
+            {
+                if ((bird.transform.position.y >= target[a].transform.position.y - 1.5) &&
+                        (bird.transform.position.y <= target[a].transform.position.y + 1.5))
+                {
+                    GameOver();
+                }
+
+            }
+        }
+
+        if ((bird.transform.position.x == Mathf.Round(Pipe[a].transform.position.x) ||
                 bird.transform.position.x == Mathf.Round(Pipe[a].transform.position.x)) 
                 )
             {
             if ((bird.transform.position.y <= Pipe[a].transform.position.y - 1.5 && bird.transform.position.y < 5) ||
                     (bird.transform.position.y >= Pipe[a].transform.position.y + 1.5 && bird.transform.position.y > -5))
                 GameOver();
-            MovePipe.speed = 1f;
+                MovePipe.speed = 1f;
             }
             else
             {
