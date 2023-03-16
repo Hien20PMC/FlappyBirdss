@@ -31,9 +31,9 @@ public class Bullet : MonoBehaviour
         }
         if (Mathf.Round(Bullets.transform.position.x) == Mathf.Round(target[Bird.a].transform.position.x))
         {
-            if ((Bullets.transform.position.y) >= (target[Bird.a].transform.position.y) - 1 &&
-               (Bullets.transform.position.y) <= (target[Bird.a].transform.position.y) + 1)
-                target[Bird.a].SetActive(false);
+            if ((Bullets.transform.position.y) >= (target[Bird.a].transform.position.y) - 0.8 &&
+               (Bullets.transform.position.y) <= (target[Bird.a].transform.position.y) + 0.8)
+            target[Bird.a].SetActive(false);
         }
     }
 }

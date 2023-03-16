@@ -13,18 +13,24 @@ public class Bird : MonoBehaviour
     [SerializeField] private Transform bulletPosition;
     [SerializeField] private GameObject bird;
     [SerializeField] private TMP_Text ScoreText;
-    [SerializeField] private TMP_Text highscore; 
+    [SerializeField] private TMP_Text highscore;
     [SerializeField] private Image Ghost;
     [SerializeField] private Image TimeManager;
     [SerializeField] private GameObject[] Pipe;
     [SerializeField] private GameObject[] target;
-    public static int a=0;
+    public static int a = 0;
     private int score = 0;
     private int HightScore = 0;
-    private int temp=0;
+    public static int [] temp ;
+    private bool pass = false;
     public virtual void Start()
     {
-        if (StartGame.cate_bird == 1 )
+        HightScore = PlayerPrefs.GetInt("HighScore", 0);
+        highscore.text = "HighScore: " + HightScore.ToString();
+        temp =new int[Pipe.Length];
+        temp[0]=1;
+        temp[1] = 1;
+        if (StartGame.cate_bird == 1)
         {
             TimeManager.gameObject.SetActive(false);
             Ghost.gameObject.SetActive(false);
@@ -45,11 +51,7 @@ public class Bird : MonoBehaviour
     {
         Move();
         Collide();
-        UpdateHighScore();  
-    }
-    public void FixedUpdate()
-    {
-        //Score();
+        UpdateHighScore();
     }
     public void Move()
     {
@@ -67,7 +69,7 @@ public class Bird : MonoBehaviour
         float angel = 0f;
         if (vel.y < 0)
         {
-            angel = Mathf.Lerp(0, -90, -vel.y / maxspeed);
+            angel = Mathf.Lerp(0, -80, -vel.y / maxspeed);
         }
         transform.rotation = Quaternion.Euler(0, 0, angel);
         if (Input.GetKeyDown(KeyCode.E))
@@ -85,17 +87,17 @@ public class Bird : MonoBehaviour
             bullet.SetActive(true);
         }
     }
-
     public void Collide()
     {
+        Score();
         if (target[a].activeInHierarchy == true)
         {
             if (
               Mathf.Round(bird.transform.position.x) == Mathf.Round(target[a].transform.position.x)
               )
             {
-                if ((bird.transform.position.y >= target[a].transform.position.y - 1.5) &&
-                        (bird.transform.position.y <= target[a].transform.position.y + 1.5))
+                if ((bird.transform.position.y >= target[a].transform.position.y - 1) &&
+                        (bird.transform.position.y <= target[a].transform.position.y + 1))
                 {
                     GameOver();
                 }
@@ -104,19 +106,19 @@ public class Bird : MonoBehaviour
         }
 
         if ((bird.transform.position.x == Mathf.Round(Pipe[a].transform.position.x) ||
-                bird.transform.position.x == Mathf.Round(Pipe[a].transform.position.x)) 
+                bird.transform.position.x == Mathf.Round(Pipe[a].transform.position.x))
                 )
-            {
+        {
             if ((bird.transform.position.y <= Pipe[a].transform.position.y - 1.5 && bird.transform.position.y < 5) ||
                     (bird.transform.position.y >= Pipe[a].transform.position.y + 1.5 && bird.transform.position.y > -5))
                 GameOver();
-                MovePipe.speed = 1f;
-            }
-            else
-            {
-                a++;
-            }
-        
+            MovePipe.speed = 1f;
+        }
+        else
+        {
+            a++;
+        }
+
         if (a == Pipe.Length)
         {
             a = 0;
@@ -136,15 +138,28 @@ public class Bird : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    //public void Score()
-    //{
-    //    ScoreText.text = Mathf.Round(score).ToString();
+    public void Score()
+    {
+        ScoreText.text = Mathf.Round(score).ToString();
 
-    //    if (bird.transform.position.x == Mathf.Round(Pipe[a].transform.position.x))
-    //    {
-    //        score++;
-    //        Sound.s_Sound.SoundPoint();
-    //    }
-    //}
+        if (temp[0] == 1)
+        {
+            if (bird.transform.position.x > Pipe[0].transform.position.x)
+            {
+                score++;
+                Sound.s_Sound.SoundPoint();
+                temp[0] = 0;
+            }
+        }
+        if (temp[1] == 1)
+        {
+            if (bird.transform.position.x > Pipe[1].transform.position.x)
+            {
+                score++;
+                Sound.s_Sound.SoundPoint();
+                temp[1] = 0;
+            }
+        }
+    }
 
 }

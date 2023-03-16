@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class MovePipe : MonoBehaviour
 {
-    //[SerializeField] private GameObject bird;
-    //[SerializeField] private GameObject bird1;
-    //[SerializeField] private GameObject bird2;
     [SerializeField] private GameObject Pipe1;
     [SerializeField] private GameObject Pipe2;
     [SerializeField] private Vector3 vel;
@@ -17,38 +14,10 @@ public class MovePipe : MonoBehaviour
     public static MovePipe instance;
     private bool isDash = false;
     public static float speed = 1f;
-    //private float dx;
-    //private float dy; 
-    //private float dx1;
-    //private float dy1;
-    ////public float leftedge;
-    //float x;
-    //float y;
-    //float x1;
-    //float y1;
-    //float x2;
-    //float y2;
-    //float x3;
-    //float y3;
+
 
     void Start()
     {
-        //if (StartGame.cate_bird == 0)
-        //{
-        //    StartGame.cate_bird = 1;
-        //}
-        //if (StartGame.cate_bird == 1)
-        //{
-        //    bird = bird1;
-        //    bird2.SetActive(false);
-        //}
-        //if (StartGame.cate_bird == 2)
-        //{
-        //    bird = bird2;
-        //    bird1.SetActive(false);
-        //}
-        //Score();
-        //leftedge = Camera.main.ScreenToWorldPoint(Vector3.zero).x - 0.5f;
     }
     // Update is called once per frame
     void Update()
@@ -77,11 +46,13 @@ public class MovePipe : MonoBehaviour
         if (Pipe[0].transform.position.x < -5)
         {
             Pipe[0].transform.position = new Vector3(3, Random.Range(-1, 1));
+            Bird.temp[0] = 1;
             target[0].SetActive(true);
         }
         if (Pipe[1].transform.position.x < -5)
         {
             Pipe[1].transform.position = new Vector3(3, Random.Range(-1, 1));
+            Bird.temp[1] = 1;
             target[1].SetActive(true);
         }
         //dx = Pide_up.transform.position.x;
@@ -109,33 +80,5 @@ public class MovePipe : MonoBehaviour
         //    GameOver();
         //}
     }
-    //public void GameOver()
-    //{
-    //    SceneManager.LoadScene("GameOver");
-    //}
-
-    //private bool CanMove(Vector3 dir, float distance)
-    //{
-    //    return Physics2D.Raycast(transform.position, dir, distance).collider == null;
-    //}
-    //public IEnumerator Dash()
-    //{
-    //    isDash = true;
-    //    transform.position += Vector3.left * speed * 10 * Time.deltaTime;
-    //    speed += 7;
-    //    yield return new WaitForSeconds(0.3f);
-    //    isDash = false;
-    //    transform.position += Vector3.left * speed * Time.deltaTime;
-    //    speed -= 7;
-    //}
-    //public void MoveDash()
-    //{
-    //    if (!isDash)
-    //    {
-    //        if (Input.GetKeyDown(KeyCode.DownArrow))
-    //        {
-    //            Dash();
-    //        }
-    //    }
-    //}
+   
 }
